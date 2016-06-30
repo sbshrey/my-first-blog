@@ -39,7 +39,7 @@ LOGGING = {
         'default': {
             'level': 'DEBUG',
             'class': 'logging.handlers.RotatingFileHandler',
-            'filename': 'logs/mylog.log',
+            'filename': 'logger.log',
             'maxBytes': 1024 * 1024 * 5,  # 5MB
             'backupCount': 5,
             'formatter': 'standard'
@@ -47,7 +47,7 @@ LOGGING = {
         'request_handler': {
             'level': 'DEBUG',
             'class': 'logging.handlers.RotatingFileHandler',
-            'filename': 'logs/django_request.log',
+            'filename': 'logger.log',
             'maxBytes': 1024 * 1024 * 5,  # 5MB
             'backupCount': 5,
             'formatter': 'standard'
@@ -67,7 +67,6 @@ LOGGING = {
     }
 }
 
-
 logging.config.dictConfig(LOGGING)
 
 ALLOWED_HOSTS = []
@@ -85,7 +84,6 @@ INSTALLED_APPS = [
     'social.apps.django_app.default',
 
     'blog',
-    'thirdauth',
 ]
 
 MIDDLEWARE_CLASSES = [
