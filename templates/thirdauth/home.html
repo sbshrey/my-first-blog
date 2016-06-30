@@ -18,10 +18,10 @@
        <a href="{% url 'social:begin' 'facebook' %}?next={{ request.path }}/blog/">Login with Facebook</a>
      </li>
      <li>
-       <a href="{% url 'social:begin' 'google-oauth2' %}?next={{ request.path }}">Login with Google</a>
+       <a href="{% url 'social:begin' 'google-oauth2' %}?next={{ request.path }}/blog">Login with Google</a>
      </li>
      <li>
-       <a href="{% url 'social:begin' 'twitter' %}?next={{ request.path }}">Login with Twitter</a>
+       <a href="{% url 'social:begin' 'twitter' %}?next={{ request.path }}/blog">Login with Twitter</a>
      </li>
    {% endif %}
    </ul>
