@@ -16,13 +16,18 @@ Including another URLconf
 from django.conf.urls import include, url
 import django.contrib.auth.views
 
+import thirdauth.views
+
 from django.contrib import admin
 admin.autodiscover()
 
 
 urlpatterns = [
+    url(r'^$', thirdauth.views.home, name='home'),
+    url(r'', include('social.apps.django_app.urls', namespace='social')),
+    url(r'', include('django.contrib.auth.urls', namespace='auth')),
     url(r'^admin/', admin.site.urls),
     url(r'^accounts/login/$', django.contrib.auth.views.login, name='login'),
     url(r'^accounts/logout/$', django.contrib.auth.views.logout, name='logout', kwargs={'next_page': '/'}),
-    url(r'', include('blog.urls')),
+    url(r'^blog/', include('blog.urls')),
 ]
