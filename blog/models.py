@@ -36,5 +36,5 @@ class Comment(models.Model):
         self.save()
 
     def __str__(self):
-        return self.text
+        return self.author
 

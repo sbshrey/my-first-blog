@@ -10,7 +10,6 @@ from .forms import PostForm, CommentForm
 
 from django.contrib.auth.forms import UserCreationForm
 
-
 import logging
 
 logger = logging.getLogger(__name__)
@@ -105,6 +104,7 @@ def add_comment_to_post(request, pk):
         form = CommentForm(request.POST)
         if form.is_valid():
             comment = form.save(commit=False)
+            comment.author = request.user
             comment.post = post
             comment.save()
             return redirect('blog.views.post_detail', pk=post.pk)
