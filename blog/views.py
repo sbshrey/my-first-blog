@@ -1,3 +1,5 @@
+from django.contrib.auth import authenticate, login
+from django.core.checks import messages
 from django.shortcuts import render, get_object_or_404, redirect
 from django.utils import timezone
 
@@ -6,12 +8,33 @@ from django.contrib.auth.decorators import login_required
 from .models import Post, Comment
 from .forms import PostForm, CommentForm
 
+from django.contrib.auth.forms import UserCreationForm
+
+
 import logging
 
 logger = logging.getLogger(__name__)
 
 
 # Create your views here.
+def register(request):
+    if request.method == 'POST':
+        form = UserCreationForm(request.POST)
+        if form.is_valid():
+            new_user = form.save()
+            context = {"message": "Thanks for registering. You are now logged in."}
+            new_user = authenticate(username=form.cleaned_data['username'],
+                                    password=form.cleaned_data['password1'],
+                                    )
+            login(request, new_user)
+            return render(request, "registration/registered.html", context)
+    else:
+        form = UserCreationForm()
+    return render(request, "registration/register.html", {
+        'form': form,
+    })
+
+
 def post_list(request):
     posts = Post.objects.filter(published_date__lte=timezone.now()).order_by('published_date')
     return render(request, 'blog/post_list.html', {'posts': posts})
@@ -48,7 +71,7 @@ def post_edit(request, pk):
             post = form.save(commit=False)
             post.author = request.user
             # post.published_date = timezone.now()
-            post.save();
+            post.save()
             return redirect('post_detail', pk=post.pk)
     else:
         form = PostForm(request.POST, instance=post)

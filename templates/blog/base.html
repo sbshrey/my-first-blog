@@ -34,8 +34,10 @@
         <p class="top-menu">Hello {{ user.username }}<small>(<a href="{% url 'logout' %}">Log out</a>)</small></p>
       {% else %}
         <a href="{% url 'login' %}" class="top-menu"><span class="glyphicon glyphicon-lock"></span></a>
-      {% endif %}
-      <h1><a href="{% url 'blog.views.post_list' %}">Django Girls</a></h1>
+        <p class="top-menu">New User?<small>(<a href="{% url 'register' %}">Register</a>)</small></p>
+
+        {% endif %}
+      <h1><a href="{% url 'post_list' %}">Django Girls</a></h1>
     </div>
     <div class="content container">
       <div class="row">
