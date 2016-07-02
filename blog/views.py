@@ -26,7 +26,7 @@ def register(request):
                                     password=form.cleaned_data['password1'],
                                     )
             login(request, new_user)
-            return redirect('post_list')
+            return redirect(post_list)
     else:
         form = UserCreationForm()
     return render(request, "registration/register.html", {'form': form})
