@@ -23,7 +23,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = '$*2*6h81ch8n#aynr=k7#ywb-l4_ll!+8bu!qq7q&y8era@!vz'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
 LOGGING_CONFIG = None
 
@@ -69,7 +69,7 @@ LOGGING = {
 
 logging.config.dictConfig(LOGGING)
 
-ALLOWED_HOSTS = ['blogger.santellia.com']
+ALLOWED_HOSTS = []
 
 # Application definition
 
