@@ -1,6 +1,7 @@
 {% extends 'blog/base.html' %}
 
 {% block content %}
+<h3>Pending post List</h3>
   {% for post in posts %}
     {% if user == post.author or user.is_superuser %}
     <div class="post">
@@ -10,5 +11,8 @@
       <p class="owner">created by: {{ post.author }}</p>
     </div>
     {% endif %}
+  {% empty %}
+      <p>You have no pending posts!</p>
   {% endfor %}
+
 {% endblock content %}

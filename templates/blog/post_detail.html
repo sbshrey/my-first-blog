@@ -1,7 +1,16 @@
 {% extends 'blog/base.html' %}
 
+
 {% block content %}
   <div class="post">
+    {% if user == post.author or user.is_superuser %}
+      <a class="btn btn-default" href="{% url 'post_edit' pk=post.pk %}"><span class="glyphicon glyphicon-pencil"></span></a>
+      <a class="btn btn-default" href="{% url 'post_remove' pk=post.pk %}"><span class="glyphicon glyphicon-remove"></span></a>
+    {% endif %}
+    <h1>{{ post.title }}</h1>
+    <p>{{ post.text | linebreaksbr }}</p>
+      <p>created by: {{ post.author }}</p>
+
     {% if post.published_date %}
       <div class="date">
         {{ post.published_date }}
@@ -14,28 +23,25 @@
           <p>You are not superuser. You cannot publish the post.</p>
       {% endif %}
     {% endif %}
-    {% if user == post.author or user.is_superuser %}
-      <a class="btn btn-default" href="{% url 'post_edit' pk=post.pk %}"><span class="glyphicon glyphicon-pencil"></span></a>
-      <a class="btn btn-default" href="{% url 'post_remove' pk=post.pk %}"><span class="glyphicon glyphicon-remove"></span></a>
-    {% endif %}
-    <h1>{{ post.title }}</h1>
-    <p>{{ post.text | linebreaksbr }}</p>
-      <p>created by: {{ post.author }}</p>
+
   </div>
   <hr>
   <a class="btn btn-default" href="{% url 'add_comment_to_post' pk=post.pk %}">Add comment</a>
   {% for comment in post.comments.all %}
     {% if user == comment.author or comment.approved_comment or user == post.author %}
       <div class="comment">
-        <div class="date">
-          {{ comment.created_date }}
+
           {% if not comment.approved_comment and user == post.author %}
             <a class="btn btn-default" href="{% url 'comment_remove' pk=comment.pk %}"><span class="glyphicon glyphicon-remove"></span></a>
             <a class="btn btn-default" href="{% url 'comment_approve' pk=comment.pk %}"><span class="glyphicon glyphicon-ok"></span></a>
           {% endif %}
-        </div>
+
         <strong>{{ comment.author }}</strong>
         <p>{{comment.text | linebreaks }}</p>
+      </div>
+
+      <div class="date">
+          {{ comment.created_date }}
       </div>
     {% endif %}
   {% empty %}
