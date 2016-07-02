@@ -2,10 +2,13 @@
 
 {% block content %}
   {% for post in posts %}
+    {% if user == post.author or user.is_superuser %}
     <div class="post">
-      <p class="date">created: {{ post.created_date|date:'d-m-Y' }}</p>
       <h1><a href="{% url 'blog.views.post_detail' pk=post.pk %}">{{ post.title }}</a></h1>
       <p>{{ post.text | truncatechars:200 }}</p>
+      <p class="date">created: {{ post.created_date|date:'d-m-Y' }}</p>
+      <p class="owner">created by: {{ post.author }}</p>
     </div>
+    {% endif %}
   {% endfor %}
 {% endblock content %}

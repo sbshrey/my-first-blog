@@ -9,11 +9,12 @@
     {% else %}
       {% if user.is_superuser %}
         <a class="btn btn-default" href="{% url 'blog.views.post_publish' pk=post.pk %}">Publish</a>
-      {% else %}
-        <p>You are not superuser. You cannot publish the post.</p>
+      {% endif %}
+      {% if user = post.author %}
+          <p>You are not superuser. You cannot publish the post.</p>
       {% endif %}
     {% endif %}
-    {% if user.is_authenticated %}
+    {% if user == post.author or user.is_superuser %}
       <a class="btn btn-default" href="{% url 'post_edit' pk=post.pk %}"><span class="glyphicon glyphicon-pencil"></span></a>
       <a class="btn btn-default" href="{% url 'post_remove' pk=post.pk %}"><span class="glyphicon glyphicon-remove"></span></a>
     {% endif %}
@@ -24,11 +25,11 @@
   <hr>
   <a class="btn btn-default" href="{% url 'add_comment_to_post' pk=post.pk %}">Add comment</a>
   {% for comment in post.comments.all %}
-    {% if user.is_superuser or comment.approved_comment or user == post.author or comment.author == 'AnonymousUser' or user == comment.author %}
+    {% if user == comment.author or comment.approved_comment or user == post.author %}
       <div class="comment">
         <div class="date">
           {{ comment.created_date }}
-          {% if not comment.approved_comment and user == post.author or user.is_superuser %}
+          {% if not comment.approved_comment and user == post.author %}
             <a class="btn btn-default" href="{% url 'comment_remove' pk=comment.pk %}"><span class="glyphicon glyphicon-remove"></span></a>
             <a class="btn btn-default" href="{% url 'comment_approve' pk=comment.pk %}"><span class="glyphicon glyphicon-ok"></span></a>
           {% endif %}

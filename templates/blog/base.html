@@ -4,23 +4,11 @@
        <meta charset="utf-8">
        <meta http-equiv="X-UA-Compatible" content="IE=edge">
        <meta name="viewport" content="width=device-width, initial-scale=1">
-       <title>{% block title %}Django Girls{% endblock %}</title>
-
-       <!-- Bootstrap
-       <link href="/static/css/bootstrap.min.css" rel="stylesheet">
-       <link href="/static/css/bootstrap-theme.min.css" rel="stylesheet">
-       <link href="/static/css/fbposter.css" rel="stylesheet">
-
-       <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
-       <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
-       <!--[if lt IE 9]>
+       <title>{% block title %}Django Boys{% endblock %}</title>
 
 
-         <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
-         <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
-       <![endif]-->
 
-    <title>Django Girls blog</title>
+    <title>Django Boys Blog</title>
     <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
     <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap-theme.min.css">
     <link rel="stylesheet" href="{% static 'css/blog.css' %}">
@@ -37,7 +25,7 @@
         <p class="top-menu">New User?<small>(<a href="{% url 'register' %}">Register</a>)</small></p>
 
         {% endif %}
-      <h1><a href="{% url 'post_list' %}">Django Girls</a></h1>
+      <h1><a href="{% url 'post_list' %}">Django Boys</a></h1>
     </div>
     <div class="content container">
       <div class="row">
@@ -51,8 +39,5 @@
 
   <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
-   <!-- Include all compiled plugins (below), or include individual files as needed -->
-   <script src="/static/js/bootstrap.min.js"></script>
-
   </body>
 </html>
