@@ -26,12 +26,10 @@ def register(request):
                                     password=form.cleaned_data['password1'],
                                     )
             login(request, new_user)
-            return render(request, "registration/registered.html", context)
+            return redirect('post_list')
     else:
         form = UserCreationForm()
-    return render(request, "registration/register.html", {
-        'form': form,
-    })
+    return render(request, "registration/register.html", {'form': form,})
 
 
 def post_list(request):
@@ -88,7 +86,7 @@ def post_draft_list(request):
 def post_publish(request, pk):
     post = get_object_or_404(Post, pk=pk)
     post.publish()
-    return redirect('blog.views.post_detail', pk=pk)
+    return redirect('blog.views.post_list')
 
 
 @login_required
@@ -98,6 +96,7 @@ def post_remove(request, pk):
     return redirect(post_list)
 
 
+@login_required
 def add_comment_to_post(request, pk):
     post = get_object_or_404(Post, pk=pk)
     if request.method == "POST":

@@ -9,6 +9,12 @@
       <p>{{ post.text | truncatechars:200 }}</p>
       <p class="date">created: {{ post.created_date|date:'d-m-Y' }}</p>
       <p class="owner">created by: {{ post.author }}</p>
+      {% if user.is_superuser %}
+        <a class="btn btn-primary" href="{% url 'blog.views.post_publish' pk=post.pk %}">Publish</a>
+    {% endif %}
+    {% if user = post.author and not user.is_superuser %}
+          <p>You are not superuser. You cannot publish the post.</p>
+    {% endif %}
     </div>
     {% endif %}
   {% empty %}
