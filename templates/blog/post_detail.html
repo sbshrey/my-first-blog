@@ -4,8 +4,8 @@
 {% block content %}
   <div class="post">
     {% if user == post.author or user.is_superuser %}
-      <a class="btn btn-default" href="{% url 'post_edit' pk=post.pk %}"><span class="glyphicon glyphicon-pencil"></span></a>
-      <a class="btn btn-default" href="{% url 'post_remove' pk=post.pk %}"><span class="glyphicon glyphicon-remove"></span></a>
+      <a class="btn btn-warning" href="{% url 'post_edit' pk=post.pk %}"><span class="glyphicon glyphicon-pencil"></span></a>
+      <a class="btn btn-danger" href="{% url 'post_remove' pk=post.pk %}"><span class="glyphicon glyphicon-remove"></span></a>
     {% endif %}
     <h1>{{ post.title }}</h1>
     <p>{{ post.text | linebreaksbr }}</p>
@@ -17,7 +17,7 @@
       </div>
     {% else %}
       {% if user.is_superuser %}
-        <a class="btn btn-default" href="{% url 'blog.views.post_publish' pk=post.pk %}">Publish</a>
+        <a class="btn btn-primary" href="{% url 'blog.views.post_publish' pk=post.pk %}">Publish</a>
       {% endif %}
       {% if user = post.author and not user.is_superuser %}
           <p>You are not superuser. You cannot publish the post.</p>
@@ -26,23 +26,23 @@
 
   </div>
   <hr>
-  <a class="btn btn-default" href="{% url 'add_comment_to_post' pk=post.pk %}">Add comment</a>
+  <h3>Comments:   <a class="btn btn-primary" href="{% url 'add_comment_to_post' pk=post.pk %}">New comment</a></h3>
   {% for comment in post.comments.all %}
     {% if user == comment.author or comment.approved_comment or user == post.author %}
       <div class="comment">
-
-          {% if not comment.approved_comment and user == post.author %}
-            <a class="btn btn-default" href="{% url 'comment_remove' pk=comment.pk %}"><span class="glyphicon glyphicon-remove"></span></a>
-            <a class="btn btn-default" href="{% url 'comment_approve' pk=comment.pk %}"><span class="glyphicon glyphicon-ok"></span></a>
-          {% endif %}
-
+        {% if not comment.approved_comment and user == post.author %}
+          <a class="btn btn-danger" href="{% url 'comment_remove' pk=comment.pk %}"><span class="glyphicon glyphicon-remove"></span></a>
+          <a class="btn btn-success" href="{% url 'comment_approve' pk=comment.pk %}"><span class="glyphicon glyphicon-ok"></span></a>
+        {% endif %}
         <strong>{{ comment.author }}</strong>
         <p>{{comment.text | linebreaks }}</p>
       </div>
-
       <div class="date">
-          {{ comment.created_date }}
+        {{ comment.created_date }}
       </div>
+      {% if comment.author == user or user == post.author %}
+        <a class="btn btn-danger" href="{% url 'comment_remove' pk=comment.pk %}">remove</a>
+      {% endif %}
     {% endif %}
   {% empty %}
     <p>No comments here yet :(</p>
