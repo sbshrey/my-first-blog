@@ -29,7 +29,7 @@ def register(request):
             return redirect('post_list')
     else:
         form = UserCreationForm()
-    return render(request, "registration/register.html", {'form': form,})
+    return render(request, "registration/register.html", {'form': form})
 
 
 def post_list(request):
