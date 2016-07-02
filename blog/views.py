@@ -91,7 +91,8 @@ def post_publish(request, pk):
 @login_required
 def post_remove(request, pk):
     post = get_object_or_404(Post, pk=pk)
-    post.delete()
+    if post.author == request.user or request.user.is_superuser:
+        post.delete()
     return redirect(post_list)
 
 
@@ -122,5 +123,6 @@ def comment_approve(request, pk):
 def comment_remove(request, pk):
     comment = get_object_or_404(Comment, pk=pk)
     post_pk = comment.post.pk
-    comment.delete()
+    if comment.author == request.user or request.user.is_superuser:
+        comment.delete()
     return redirect('blog.views.post_detail', pk=post_pk)
