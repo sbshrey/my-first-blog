@@ -24,10 +24,12 @@
     <p>{{ post.text | linebreaksbr }}</p>
       <p>created by: {{ post.author }}</p>
 
-
-
   </div>
+
+
   <hr>
+
+
   <h3>Comments:   <a class="btn btn-primary" href="{% url 'add_comment_to_post' pk=post.pk %}">New comment</a></h3>
   {% for comment in post.comments.all %}
     {% if user == comment.author or comment.approved_comment or user == post.author %}

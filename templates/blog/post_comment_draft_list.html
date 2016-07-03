@@ -1,0 +1,34 @@
+{% extends 'blog/base.html' %}
+
+{% block content %}
+<h3>Pending Comments List</h3>
+{% for post in posts %}
+    {% if user == post.author %}
+    <div class="post">
+      <h1><a href="{% url 'blog.views.post_detail' pk=post.pk %}">{{ post.title }}</a></h1>
+      <p>{{ post.text | truncatechars:200 }}</p>
+      <p class="date">created: {{ post.created_date|date:'d-m-Y' }}</p>
+    </div>
+    {% endif %}
+  {% for comment in post.comments.all %}
+    <div class="comment">
+    {% if not comment.approved_comment and user == post.author %}
+        <h3>Pending comments list:</h3><br />
+      <a class="btn btn-danger" href="{% url 'comment_remove' pk=comment.pk %}"><span class="glyphicon glyphicon-remove"></span></a>
+      <a class="btn btn-success" href="{% url 'comment_approve' pk=comment.pk %}"><span class="glyphicon glyphicon-ok"></span></a>
+      <strong>{{ comment.author }}</strong>
+      <p>{{comment.text | linebreaks }}</p>
+        <div class="date">
+        {{ comment.created_date }}
+      </div>
+      {% if comment.author == user or user == post.author %}
+        <a class="btn btn-danger" href="{% url 'comment_remove' pk=comment.pk %}">remove</a>
+      {% endif %}
+
+    {% endif %}
+    </div>
+
+  {% endfor %}
+
+{% endfor %}
+{% endblock content %}

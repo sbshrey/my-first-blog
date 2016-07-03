@@ -1,14 +1,10 @@
-from django.contrib.auth import authenticate, login
-from django.core.checks import messages
 from django.shortcuts import render, get_object_or_404, redirect
 from django.utils import timezone
 
-from django.contrib.auth.decorators import login_required
+from allauth.account.decorators import login_required
 
 from .models import Post, Comment
 from .forms import PostForm, CommentForm
-
-from django.contrib.auth.forms import UserCreationForm
 
 import logging
 
@@ -16,19 +12,20 @@ logger = logging.getLogger(__name__)
 
 
 # Create your views here.
-def register(request):
-    if request.method == 'POST':
-        form = UserCreationForm(request.POST)
-        if form.is_valid():
-            form.save()
-            new_user = authenticate(username=form.cleaned_data['username'],
-                                    password=form.cleaned_data['password1'],
-                                    )
-            login(request, new_user)
-            return redirect(post_list)
-    else:
-        form = UserCreationForm()
-    return render(request, "registration/register.html", {'form': form})
+# def register(request):
+#     if request.method == 'POST':
+#         form = UserCreationForm(request.POST)
+#         if form.is_valid():
+#             form.save()
+#             new_user = authenticate(username=form.cleaned_data['username'],
+#                                     password=form.cleaned_data['password1'],
+#                                     )
+#             login(request, new_user)
+#             return redirect(post_list)
+#     else:
+#         form = UserCreationForm()
+#     return render(request, "registration/register.html", {'form': form})
+
 
 
 def post_list(request):
@@ -84,7 +81,8 @@ def post_draft_list(request):
 @login_required
 def post_publish(request, pk):
     post = get_object_or_404(Post, pk=pk)
-    post.publish()
+    if request.user.is_superuser:
+        post.publish()
     return redirect('blog.views.post_list')
 
 
@@ -112,10 +110,17 @@ def add_comment_to_post(request, pk):
     return render(request, 'blog/add_comment_to_post.html', {'form': form})
 
 
+def post_comment_draft_list(request):
+    posts = Post.objects.order_by('created_date')
+    # comments = Comment.objects.filter(published_date__isnull=True).order_by('created_date')
+    return render(request, 'blog/post_comment_draft_list.html', {'posts': posts})
+
+
 @login_required
 def comment_approve(request, pk):
     comment = get_object_or_404(Comment, pk=pk)
-    comment.approve()
+    if request.user.is_superuser or comment.post.author == request.user:
+        comment.approve()
     return redirect('blog.views.post_detail', pk=comment.post.pk)
 
 
@@ -123,6 +128,6 @@ def comment_approve(request, pk):
 def comment_remove(request, pk):
     comment = get_object_or_404(Comment, pk=pk)
     post_pk = comment.post.pk
-    if comment.author == request.user or request.user.is_superuser:
+    if comment.author == request.user or request.user.is_superuser or comment.post.author == request.user:
         comment.delete()
     return redirect('blog.views.post_detail', pk=post_pk)

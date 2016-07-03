@@ -17,16 +17,33 @@
   <body>
     <div class="page-header">
       {% if user.is_authenticated %}
-        <a href="{% url 'post_new' %}" class="top-menu"><span class="glyphicon glyphicon-plus"></span></a>
-        <a href="{% url 'post_draft_list' %}" class="top-menu"><span class="glyphicon glyphicon-edit"></span></a>
-        <p class="top-menu">Hello {{ user.username }}<small>(<a href="{% url 'logout' %}">Log out</a>)</small></p>
+        <p class="top-menu"><small>Welcome, <a href="{% url 'profile' %}">{{ user.username }}</a> (<a href="{% url 'logout' %}">Log out</a>)</small></p>
+        <a href="{% url 'post_new' %}" class="top-menu"><small>New Post</small></a>
+        <a href="{% url 'post_draft_list' %}" class="top-menu"><small>Pending Posts</small></a>
+        <a href="{% url 'post_comment_draft_list' %}" class="top-menu"><small>My Posts</small></a>
       {% else %}
-        <a href="{% url 'login' %}" class="top-menu"><span class="glyphicon glyphicon-lock"></span></a>
-        <p class="top-menu">New User?<small>(<a href="{% url 'register' %}">Register</a>)</small></p>
+        <a href="{% url 'login' %}" class="top-menu">Sign In</a>
+        <a href="{% url 'signup' %}" class="top-menu">Sign Up</a>
+
 
         {% endif %}
       <h1><a href="{% url 'post_list' %}">Django Boys</a></h1>
     </div>
+
+    {% block body %}
+
+    {% if messages %}
+    <div>
+      <strong>Messages:</strong>
+      <ul>
+	{% for message in messages %}
+	<li>{{message}}</li>
+	{% endfor %}
+      </ul>
+    </div>
+    {% endif %}
+
+    {% endblock body %}
     <div class="content container">
       <div class="row">
         <div class="col-md-8">

@@ -7,7 +7,7 @@
   {% for post in posts %}
     <div class="post">
         <h1><a href="{% url 'post_detail' pk=post.pk %}">{{ post.title }}</a></h1>
-        <p>{{ post.text|linebreaksbr | truncatechars:400}}</p>
+        <p>{{ post.text|linebreaksbr | truncatewords:40}}</p>
         <p>Created by: {{ post.author }}</p>
       <div class="date">
         <p>published on: {{ post.published_date }}</p>

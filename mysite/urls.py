@@ -13,18 +13,25 @@ Including another URLconf
     1. Import the include() function: from django.conf.urls import url, include
     2. Add a URL to urlpatterns:  url(r'^blog/', include('blog.urls'))
 """
+
 from django.conf.urls import include, url
-import django.contrib.auth.views
+
+import allauth.account.views
+
+from django.views.generic import TemplateView
+
 
 from django.contrib import admin
+
 admin.autodiscover()
 
-
 urlpatterns = [
-    url(r'', include('social.apps.django_app.urls', namespace='social')),
-    url(r'', include('django.contrib.auth.urls', namespace='auth')),
     url(r'', include('blog.urls')),
     url(r'^admin/', admin.site.urls),
-    url(r'^accounts/login/$', django.contrib.auth.views.login, name='login'),
-    url(r'^accounts/logout/$', django.contrib.auth.views.logout, name='logout', kwargs={'next_page': '/'}),
+    url(r'^accounts/', include('allauth.urls')),
+    url(r'^accounts/login/$', allauth.account.views.login, name='login'),
+    url(r'^accounts/logout/$', allauth.account.views.logout, name='logout'),
+    url(r'accounts/profile/$', TemplateView.as_view(template_name="account/profile.html"), name='profile'),
+    url(r'^accounts/password/change$', allauth.account.views.password_change, name='password_change'),
+    url(r'^accounts/', allauth.account.views.signup, name='signup'),
 ]
