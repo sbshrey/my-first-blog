@@ -71,7 +71,7 @@ LOGGING = {
 
 logging.config.dictConfig(LOGGING)
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['localhost', '127.0.0.1', 'blogger.santellia.com']
 
 # Application definition
 
