@@ -25,7 +25,7 @@ SECRET_KEY = '$*2*6h81ch8n#aynr=k7#ywb-l4_ll!+8bu!qq7q&y8era@!vz'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-SITE_ID = 2
+SITE_ID = 1
 
 LOGGING_CONFIG = None
 
