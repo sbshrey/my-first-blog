@@ -20,10 +20,10 @@ import allauth.account.views
 
 from django.views.generic import TemplateView
 
-
 from django.contrib import admin
 
-admin.autodiscover()
+from django.conf import settings
+from django.conf.urls.static import static
 
 urlpatterns = [
     url(r'', include('blog.urls')),
@@ -35,3 +35,7 @@ urlpatterns = [
     url(r'^accounts/password/change$', allauth.account.views.password_change, name='password_change'),
     url(r'^accounts/', allauth.account.views.signup, name='signup'),
 ]
+
+if settings.DEBUG:
+    urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

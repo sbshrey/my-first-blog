@@ -7,6 +7,9 @@
   {% for post in posts %}
     <div class="post">
         <h1><a href="{% url 'post_detail' pk=post.pk %}">{{ post.title }}</a></h1>
+        {% if post.image %}
+            <img src="{{ post.image.url }}" class="img-responsive" />
+        {% endif %}
         <p>{{ post.text|linebreaksbr | truncatewords:40}}</p>
         <p>Created by: {{ post.author }}</p>
       <div class="date">
