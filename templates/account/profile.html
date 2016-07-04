@@ -1,10 +1,10 @@
 {% extends "account/base.html" %}
 
-<h1>Welcome, {{user.username}}</h1>
-    <p>Following is the Extra information that facebook has provided to allauth:</p>
+
 {% block content %}
 {% if user %}
-
+    <h1>Welcome, {{user.username}}</h1>
+    <p>Following is the Extra information that facebook has provided to allauth:</p>
     {% for account in user.socialaccount_set.all %}
         <h2 style="text-transform:capitalize;">{{ account.provider }} account data</h2>
         <p><img width="50" height="50" src="{{ account.get_avatar_url }}" /></p>
